@@ -29,9 +29,9 @@ let package = Package(
             name: "ConfigCatOpenFeature",
             dependencies: [
                 .product(name: "OpenFeature", package: "swift-sdk"),
-                .product(name: "ConfigCat", package: "swift-sdk"),
+                .product(name: "ConfigCat", package: "swift-sdk")
             ],
-            resources: [.copy("Resources/PrivacyInfo.xcprivacy")],
+            resources: [.copy("Resources/PrivacyInfo.xcprivacy")]
         ),
         .testTarget(
             name: "ConfigCatOpenFeatureTests",
