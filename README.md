@@ -58,7 +58,7 @@ func main() async {
     let client = OpenFeatureAPI.shared.getClient()
 
     // Evaluate feature flag.
-    let isAwesomeFeatureEnabled = client.getBooleanDetails(key: "isAwesomeFeatureEnabled", defaultValue: false)
+    let isAwesomeFeatureEnabled = client.getBooleanValue(key: "isAwesomeFeatureEnabled", defaultValue: false)
 }
 ```
 
