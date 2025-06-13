@@ -11,32 +11,32 @@ struct Synced<Value: Equatable> {
 
     var wrappedValue: Value {
         get {
-            lock.withLock {
-                return storedValue
-            }
+            lock.lock()
+            defer { lock.unlock() }
+            return storedValue
         }
         set {
-            lock.withLock {
-                storedValue = newValue
-            }
+            lock.lock()
+            defer { lock.unlock() }
+            storedValue = newValue
         }
     }
 
     @discardableResult
     mutating func testAndSet(expect: Value, new: Value) -> Bool {
-        lock.withLock {
-            let challenge = storedValue == expect
-            storedValue = challenge ? new : storedValue
-            return challenge
-        }
+        lock.lock()
+        defer { lock.unlock() }
+        let challenge = storedValue == expect
+        storedValue = challenge ? new : storedValue
+        return challenge
     }
 
     mutating func getAndSet(new: Value) -> Value {
-        lock.withLock {
-            let old = storedValue
-            storedValue = new
-            return old
-        }
+        lock.lock()
+        defer { lock.unlock() }
+        let old = storedValue
+        storedValue = new
+        return old
     }
 }
 
@@ -48,13 +48,15 @@ final class UnfairLock {
         lock.initialize(to: os_unfair_lock())
     }
 
-    deinit {
-        lock.deallocate()
+    func lock() {
+        os_unfair_lock_lock(lock)
     }
 
-    func withLock<T>(_ code: () -> T) -> T {
-        os_unfair_lock_lock(lock)
-        defer { os_unfair_lock_unlock(lock) }
-        return code()
+    func unlock() {
+        os_unfair_lock_unlock(lock)
+    }
+
+    deinit {
+        lock.deallocate()
     }
 }
