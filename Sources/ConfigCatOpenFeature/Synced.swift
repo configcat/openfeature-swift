@@ -41,22 +41,22 @@ struct Synced<Value: Equatable> {
 }
 
 final class UnfairLock {
-    private var lock: UnsafeMutablePointer<os_unfair_lock>
+    private var unfairLock: UnsafeMutablePointer<os_unfair_lock>
 
     init() {
-        lock = UnsafeMutablePointer<os_unfair_lock>.allocate(capacity: 1)
-        lock.initialize(to: os_unfair_lock())
+        unfairLock = UnsafeMutablePointer<os_unfair_lock>.allocate(capacity: 1)
+        unfairLock.initialize(to: os_unfair_lock())
     }
 
     func lock() {
-        os_unfair_lock_lock(lock)
+        os_unfair_lock_lock(unfairLock)
     }
 
     func unlock() {
-        os_unfair_lock_unlock(lock)
+        os_unfair_lock_unlock(unfairLock)
     }
 
     deinit {
-        lock.deallocate()
+        unfairLock.deallocate()
     }
 }
