@@ -21,7 +21,7 @@ let package = Package(
         ),
         .package(
             url: "https://github.com/configcat/configcat-swift-sdk",
-            .branch("master")
+            from: "11.3.0"
         ),
     ],
     targets: [
