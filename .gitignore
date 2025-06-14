@@ -63,4 +63,6 @@ fastlane/test_output
 
 .swiftpm/
 
+.DS_Store
+
 Package.resolved
