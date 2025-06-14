@@ -45,7 +45,7 @@ import ConfigCatOpenFeature
 import ConfigCat
 import OpenFeature
 
-func main() async {
+Task {
     // Configure the provider.
     let provider = ConfigCatProvider(sdkKey: "<YOUR-CONFIGCAT-SDK-KEY>") { opts in
         opts.pollingMode = PollingModes.autoPoll()
