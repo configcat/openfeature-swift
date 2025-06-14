@@ -16,12 +16,12 @@ let package = Package(
     ],
     dependencies: [
         .package(
-            url: "https://github.com/open-feature/swift-sdk.git",
+            url: "https://github.com/open-feature/swift-sdk",
             from: "0.3.0"
         ),
         .package(
-            url: "https://github.com/configcat/ios-sdk.git",
-            .branch("master")
+            url: "https://github.com/configcat/configcat-swift-sdk",
+            from: "11.3.0"
         ),
     ],
     targets: [
@@ -29,7 +29,7 @@ let package = Package(
             name: "ConfigCatOpenFeature",
             dependencies: [
                 .product(name: "OpenFeature", package: "swift-sdk"),
-                .product(name: "ConfigCat", package: "swift-sdk")
+                .product(name: "ConfigCat", package: "configcat-swift-sdk")
             ],
             resources: [.copy("Resources/PrivacyInfo.xcprivacy")]
         ),
