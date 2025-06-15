@@ -17,7 +17,9 @@
                             "u": {
                                 "a": "Identifier",
                                 "c": 2,
-                                "l": ["@matching.com"]
+                                "l": [
+                                    "@matching.com"
+                                ]
                             }
                         }
                     ],
@@ -29,6 +31,32 @@
                     }
                 }
             ]
+        },
+        "dateTargeting": {
+            "t": 0,
+            "r": [
+                {
+                    "c": [
+                        {
+                            "u": {
+                                "a": "Date",
+                                "c": 18,
+                                "d": 1749996961.619
+                            }
+                        }
+                    ],
+                    "s": {
+                        "v": {
+                            "b": true
+                        },
+                        "i": "date-targeting"
+                    }
+                }
+            ],
+            "v": {
+                "b": false
+            },
+            "i": "date-default"
         },
         "enabledFeature": {
             "t": 0,

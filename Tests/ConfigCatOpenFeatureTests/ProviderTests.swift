@@ -54,13 +54,14 @@ class ProviderTests: XCTestCase {
     }
     
     func testUser() {
+        let date = parseDate(val: "2025-05-30T10:15:30.00Z")
         let context = MutableContext(targetingKey: "example@matching.com", structure: MutableStructure(attributes: [
             "custom1": Value.string("something"),
             "custom2": Value.boolean(true),
             "custom3": Value.integer(5),
             "custom4": Value.double(1.2),
             "custom5": Value.list([Value.integer(1), Value.integer(2)]),
-            "custom6": Value.date(parseDate(val: "2025-05-30T10:15:30.00Z")),
+            "custom6": Value.date(date),
         ]))
         
         let user = context.toUserObject()
@@ -70,7 +71,7 @@ class ProviderTests: XCTestCase {
         XCTAssertEqual(5, user.attribute(for: "custom3") as! Int)
         XCTAssertEqual(1.2, user.attribute(for: "custom4") as! Double)
         XCTAssertEqual([1,2], user.attribute(for: "custom5") as! [Int])
-        XCTAssertEqual(1748600130, user.attribute(for: "custom6") as! Double)
+        XCTAssertEqual(date, user.attribute(for: "custom6") as! Date)
     }
     
     func testTargeting() {
@@ -93,6 +94,22 @@ class ProviderTests: XCTestCase {
         XCTAssertTrue(customBoolVal.value)
         XCTAssertEqual("v-disabled-t", customBoolVal.variant)
         XCTAssertEqual(Reason.targetingMatch.rawValue, customBoolVal.reason)
+    }
+    
+    func testDateTargeting() {
+        let provider = ConfigCatProvider(sdkKey: "localhost") { opts in
+            opts.flagOverrides = try! BundleResourceDataSource(path: "test_json_complex.json", behaviour: .localOnly)
+            opts.logLevel = .debug
+        }
+        
+        let ctx = MutableContext(targetingKey: "example@matching.com", structure: MutableStructure(attributes: [
+            "Date": Value.date(parseDate(val: "2025-05-30T10:15:30.00Z"))
+        ]))
+        
+        let boolVal = provider.getBooleanEvaluation(key: "dateTargeting", defaultValue: false, context: ctx)
+        XCTAssertTrue(boolVal.value)
+        XCTAssertEqual("date-targeting", boolVal.variant)
+        XCTAssertEqual(Reason.targetingMatch.rawValue, boolVal.reason)
     }
     
     func testErrors() {

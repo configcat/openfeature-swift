@@ -12,7 +12,7 @@ the [OpenFeature Swift SDK](https://github.com/open-feature/swift-sdk).
 If you manage dependencies through SPM, in the dependencies section of Package.swift add:
 
 ```swift
-.package(url: "https://github.com/configcat/openfeature-swift.git", from: "0.1.0")
+.package(url: "https://github.com/configcat/openfeature-swift", from: "0.1.0")
 ```
 
 and in the target dependencies section add:
@@ -22,17 +22,8 @@ and in the target dependencies section add:
 
 ### Xcode Dependencies
 
-You have two options, both start from File > Add Packages... in the code menu.
-
-First, ensure you have your GitHub account added as an option (+ > Add Source Control Account...). You will need to create a [Personal Access Token](https://github.com/settings/tokens) with the permissions defined in the Xcode interface.
-
-1. Add as a remote repository
-    * Search for `git@github.com:configcat/openfeature-swift.git` and click "Add Package"
-2. Clone the repository locally
-    * Clone locally using your preferred method
-    * Use the "Add Local..." button to select the local folder
-
-**Note:** Option 2 is only recommended if you are making changes to the client SDK.
+- Open the dependencies dialog from `File` > `Add Package Dependencies...`
+- Search for `https://github.com/configcat/openfeature-swift` and click `Add Package`.
 
 ## Usage
 

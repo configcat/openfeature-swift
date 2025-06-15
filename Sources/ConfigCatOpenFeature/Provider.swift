@@ -194,11 +194,7 @@ extension EvaluationContext {
             custom: self.asObjectMap().filter { $1 != nil }.reduce(
                 into: [String: Any]()
             ) { (part, arg) in
-                if let date = arg.value as? Date {
-                    part[arg.key] = date.timeIntervalSince1970
-                } else {
-                    part[arg.key] = arg.value as Any
-                }
+                part[arg.key] = arg.value as Any
             }
         )
     }
