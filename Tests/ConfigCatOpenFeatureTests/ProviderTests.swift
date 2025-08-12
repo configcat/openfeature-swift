@@ -55,7 +55,7 @@ class ProviderTests: XCTestCase {
     
     func testUser() {
         let date = parseDate(val: "2025-05-30T10:15:30.00Z")
-        let context = MutableContext(targetingKey: "example@matching.com", structure: MutableStructure(attributes: [
+        let context = ImmutableContext(targetingKey: "example@matching.com", structure: ImmutableStructure(attributes: [
             "custom1": Value.string("something"),
             "custom2": Value.boolean(true),
             "custom3": Value.integer(5),
@@ -79,14 +79,14 @@ class ProviderTests: XCTestCase {
             opts.flagOverrides = try! BundleResourceDataSource(path: "test_json_complex.json", behaviour: .localOnly)
         }
         
-        let ctx = MutableContext(targetingKey: "example@matching.com")
+        let ctx = ImmutableContext(targetingKey: "example@matching.com")
         
         let boolVal = provider.getBooleanEvaluation(key: "disabledFeature", defaultValue: false, context: ctx)
         XCTAssertTrue(boolVal.value)
         XCTAssertEqual("v-disabled-t", boolVal.variant)
         XCTAssertEqual(Reason.targetingMatch.rawValue, boolVal.reason)
         
-        let ctxCustom = MutableContext(targetingKey: "example@matching.com", structure: MutableStructure(attributes: [
+        let ctxCustom = ImmutableContext(targetingKey: "example@matching.com", structure: ImmutableStructure(attributes: [
             "custom-anything": Value.string("something")
         ]))
         
@@ -102,7 +102,7 @@ class ProviderTests: XCTestCase {
             opts.logLevel = .debug
         }
         
-        let ctx = MutableContext(targetingKey: "example@matching.com", structure: MutableStructure(attributes: [
+        let ctx = ImmutableContext(targetingKey: "example@matching.com", structure: ImmutableStructure(attributes: [
             "Date": Value.date(parseDate(val: "2025-05-30T10:15:30.00Z"))
         ]))
         

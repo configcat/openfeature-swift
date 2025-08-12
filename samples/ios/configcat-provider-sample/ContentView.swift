@@ -21,7 +21,7 @@ struct ContentView: View {
                     // Info level logging helps to inspect the feature flag evaluation process.
                     // Use the default Warning level to avoid too detailed logging in your application.
                     opts.logLevel = .info
-            }, initialContext: MutableContext(targetingKey: "configcat@example.com", structure: MutableStructure(attributes: [
+            }, initialContext: ImmutableContext(targetingKey: "configcat@example.com", structure: MutableStructure(attributes: [
                 "Email": Value.string("configcat@example.com"),
             ])))
             
