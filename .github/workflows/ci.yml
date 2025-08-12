@@ -1,12 +1,14 @@
 name: CI
 
 on:
+  schedule:
+    - cron: '0 1 * * 1'
   pull_request:
     branches: [ main ]
     paths-ignore:
       - '**.md'
   push:
-    branches: [ main ]
+    branches: [ '*' ]
     paths-ignore:
       - '**.md'
 
