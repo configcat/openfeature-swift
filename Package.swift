@@ -17,7 +17,7 @@ let package = Package(
     dependencies: [
         .package(
             url: "https://github.com/open-feature/swift-sdk",
-            from: "0.4.0"
+            from: "0.5.0"
         ),
         .package(
             url: "https://github.com/configcat/configcat-swift-sdk",
