@@ -136,8 +136,11 @@ class ProviderTests: XCTestCase {
         
         let expect = XCTestExpectation(description: "Initialization complete")
         let obs = provider.observe().sink { event in
-            if event == .ready {
+            switch event {
+            case .ready:
                 expect.fulfill()
+            default:
+                break
             }
         }
         
@@ -161,8 +164,11 @@ class ProviderTests: XCTestCase {
         
         let expect = XCTestExpectation(description: "Initialization complete")
         let obs = provider.observe().sink { event in
-            if event == .ready {
+            switch event {
+            case .ready:
                 expect.fulfill()
+            default:
+                break
             }
         }
         

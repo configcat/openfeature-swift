@@ -40,7 +40,7 @@ public class ConfigCatProvider: FeatureProvider {
             if snapshot.cacheState != .noFlagData
                 && self._initialized.testAndSet(expect: false, new: true)
             {
-                self.eventHandler.send(.ready)
+                self.eventHandler.send(.ready(nil))
             }
         }
     }
@@ -53,7 +53,7 @@ public class ConfigCatProvider: FeatureProvider {
             let snapshot = self.client.snapshot()
             self.snapshot = snapshot
             if self._initialized.testAndSet(expect: false, new: true) {
-                self.eventHandler.send(.ready)
+                self.eventHandler.send(.ready(nil))
             }
         }
     }
