@@ -12,10 +12,11 @@ the [OpenFeature Swift SDK](https://github.com/open-feature/swift-sdk).
 If you manage dependencies through SPM, in the dependencies section of Package.swift add:
 
 ```swift
-.package(url: "https://github.com/configcat/openfeature-swift", from: "0.1.0")
+.package(url: "https://github.com/configcat/openfeature-swift", from: "0.2.0")
 ```
 
 and in the target dependencies section add:
+
 ```swift
 .product(name: "ConfigCat", package: "openfeature-swift"),
 ```
