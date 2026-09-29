@@ -144,7 +144,7 @@ class ProviderTests: XCTestCase {
             }
         }
         
-        await provider.initialize(initialContext: nil)
+        await provider.initialize(initialContext: nil).value
         await fulfillment(of: [expect])
         XCTAssertNotNil(obs)
     }
@@ -172,7 +172,7 @@ class ProviderTests: XCTestCase {
             }
         }
         
-        await provider.initialize(initialContext: nil)
+        await provider.initialize(initialContext: nil).value
         
         try! cache.write(for: "", value: cached)
         

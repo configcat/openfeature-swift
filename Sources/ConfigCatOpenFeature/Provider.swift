@@ -10,10 +10,14 @@ public struct ConfigCatProviderMetadata: ProviderMetadata {
 
 /// Describes the ConfigCat OpenFeature provider.
 public class ConfigCatProvider: FeatureProvider {
+    public var status: ProviderStatus {
+        return statusTracker.status
+    }
+    
     public var hooks: [any Hook] = []
     public var metadata: ProviderMetadata = ConfigCatProviderMetadata()
 
-    private let eventHandler = EventHandler()
+    private let statusTracker = ProviderStatusTracker()
 
     public let client: ConfigCatClient
 
@@ -40,20 +44,25 @@ public class ConfigCatProvider: FeatureProvider {
             if snapshot.cacheState != .noFlagData
                 && self._initialized.testAndSet(expect: false, new: true)
             {
-                self.eventHandler.send(.ready(nil))
+                self.statusTracker.send(.ready(nil))
             }
         }
     }
 
-    public func initialize(initialContext: EvaluationContext?) async {
+    public func initialize(initialContext: EvaluationContext?) -> Future<Void, Never> {
         let initialUser = initialContext?.toUserObject()
         self.user = initialUser
-        let state = await self.client.waitForReady()
-        if state != .noFlagData {
-            let snapshot = self.client.snapshot()
-            self.snapshot = snapshot
-            if self._initialized.testAndSet(expect: false, new: true) {
-                self.eventHandler.send(.ready(nil))
+        return Future { promise in
+            Task {
+                let state = await self.client.waitForReady()
+                if state != .noFlagData {
+                    let snapshot = self.client.snapshot()
+                    self.snapshot = snapshot
+                    if self._initialized.testAndSet(expect: false, new: true) {
+                        self.statusTracker.send(.ready(nil))
+                    }
+                }
+                promise(.success(()))
             }
         }
     }
@@ -61,9 +70,12 @@ public class ConfigCatProvider: FeatureProvider {
     public func onContextSet(
         oldContext: EvaluationContext?,
         newContext: EvaluationContext
-    ) async {
+    ) -> Future<Void, Never> {
         let user = newContext.toUserObject()
         self.user = user
+        return Future { promise in
+            promise(.success(()))
+        }
     }
 
     public func getBooleanEvaluation(
@@ -153,8 +165,8 @@ public class ConfigCatProvider: FeatureProvider {
         return details.toProviderEvaluation()
     }
 
-    public func observe() -> AnyPublisher<ProviderEvent?, Never> {
-        return eventHandler.observe()
+    public func observe() -> AnyPublisher<OpenFeature.ProviderEvent, Never> {
+        return statusTracker.observe()
     }
 
     func fromJson(json: String) -> Any? {

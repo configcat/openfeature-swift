@@ -5,8 +5,10 @@ import PackageDescription
 let package = Package(
     name: "ConfigCatOpenFeatureProvider",
     platforms: [
-        .iOS(.v14),
-        .macOS(.v11),
+        .iOS(.v15),
+        .macOS(.v12),
+        .watchOS(.v8),
+        .tvOS(.v15),
     ],
     products: [
         .library(
@@ -17,7 +19,7 @@ let package = Package(
     dependencies: [
         .package(
             url: "https://github.com/open-feature/swift-sdk",
-            from: "0.5.0"
+            from: "0.6.0"
         ),
         .package(
             url: "https://github.com/configcat/configcat-swift-sdk",
